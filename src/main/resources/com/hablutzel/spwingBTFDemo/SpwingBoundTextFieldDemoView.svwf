@@ -3,11 +3,14 @@
  * - A Frame that contains the elements
  * - A label displaying text from the model
  * - A button to change the text in the model
+ * - A button to show the current text from the model
  */
 components {
     frame: JFrame(title="Spwing Bound Text Field Demo", preferredSize=(400, 200));
     textField: JTextField();
-    button: JButton(text="Click me");
+    change: JButton(text="Change");
+    show: JButton(text="Show");
+    panel: JPanel(border=fivePixelEmptyBorder); // fivePixelEmptyBorder is a predefined Spwing border
 }
 
 // Bind the label to the text field. This is on the model by
@@ -19,8 +22,11 @@ bind {
     textField.text => "textField" ["evtTextFieldChanged"];
 }
 
-// Layout the frame, with the label in the center and the button at the bottom
+// Layout the frame, with the label in the center and the buttons at the bottom
+// Using the box layout, we make sure we're aligning horizontally and then
+// use glue elements and rigidArea spacers to position the buttons on the right.
 layout {
-    frame: borderLayout(center=textField, south=button);
+    panel: horizontal boxLayout(horizontalGlue, change, rigidArea(10, 10), show, rigidArea(10, 10));
+    frame: borderLayout(center=textField, south=panel);
 }
 

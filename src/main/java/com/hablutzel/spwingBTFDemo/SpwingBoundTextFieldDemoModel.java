@@ -21,7 +21,7 @@ import java.io.Serial;
  * can automatically detect when the model changes and
  * save the file as necessary.
  */
-@Model(extensions = {"txt"})
+@Model(extensions = {"sd2"})
 public class SpwingBoundTextFieldDemoModel extends BaseModel {
 
     @Serial
