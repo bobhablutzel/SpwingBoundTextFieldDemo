@@ -1,8 +1,9 @@
 Simple demo [Spwing](https://github.com/bobhablutzel/spwing) application that 
-demonstrates the use of the gridBagLayout layout structure.
+demonstrates the use of the bidirectional binding, controller constructor parameters,
+and multiple button handler methods.
 
 This demonstration builds on the [SpwingLabelButtonDemo](https://github.com/bobhablutzel/SpwingLabelButtonDemo)
-demonstration program, which introduces the concept of Spwing models, controllers, views and teh 
+demonstration program, which introduces the concept of Spwing models, controllers, views and the 
 SVWF view description language.
 
 This application add bidirectional model <-> view binding. In this example,
