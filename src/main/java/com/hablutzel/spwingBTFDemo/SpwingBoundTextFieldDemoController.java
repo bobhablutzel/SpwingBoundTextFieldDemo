@@ -2,10 +2,14 @@ package com.hablutzel.spwingBTFDemo;
 
 
 import com.hablutzel.spwing.Spwing;
-import com.hablutzel.spwing.annotations.Controller;
+import com.hablutzel.spwing.command.PropertyChangeCommand;
+import com.hablutzel.spwing.model.ControllerFor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
 
+import javax.swing.undo.UndoManager;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -21,9 +25,10 @@ import java.util.Locale;
  * For this demo, the button reacts by changing
  * the text of the model.
  */
-@Controller
 @RequiredArgsConstructor
-public class SpwingBoundTextFieldDemoController {
+@Service
+@Scope("document")
+public class SpwingBoundTextFieldDemoController implements ControllerFor<SpwingBoundTextFieldDemoModel> {
 
     /**
      * In this demo, the model is needed by multiple method.
@@ -93,7 +98,8 @@ public class SpwingBoundTextFieldDemoController {
      * package of the {@link SpwingBoundTextFieldDemo} class.
      */
     @SuppressWarnings("unused")
-    public void onChange_Clicked(final MessageSource messageSource) {
+    public void onChange_Clicked(final MessageSource messageSource,
+                                 final UndoManager undoManager) {
 
         // Get the current time
         final String currentTimeString = ZonedDateTime
@@ -107,8 +113,12 @@ public class SpwingBoundTextFieldDemoController {
                 "Don't forget to define a local definition of 'timeIs'",
                 Locale.getDefault());
 
+        String cmdName = messageSource.getMessage("cmdNameChange", null, Locale.getDefault());
+
         // Change the model value.
-        model.setTextField(newValue);
+        PropertyChangeCommand<String> nameChangeCommand = new PropertyChangeCommand<>(
+                newValue, model::getTextField, model::setTextField, cmdName );
+        undoManager.addEdit(nameChangeCommand);
     }
 
 }
